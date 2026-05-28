@@ -1,79 +1,62 @@
-# # Import libraries
-# import pandas as pd
-# import numpy as np
+import pandas as pd
+import numpy as np
 
-# from sklearn.model_selection import train_test_split
-# from sklearn.linear_model import LogisticRegression
-# from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 
-# # Load dataset
-# data = pd.read_csv("creditcard.csv")
+data = pd.read_csv("creditcard.csv")
 
-# # Show first 5 rows
-# print(data.head())
 
-# # Dataset information
-# print(data.info())
+print(data.head()) # First 5 rows
 
-# # Check class distribution
-# print(data['Class'].value_counts())
+print(data.info())
 
-# # Separate genuine and fraud transactions
-# legit = data[data.Class == 0]
-# fraud = data[data.Class == 1]
+print(data['Class'].value_counts())
 
-# print("Legitimate Transactions:", legit.shape)
-# print("Fraud Transactions:", fraud.shape)
+legit = data[data.Class == 0]
+fraud = data[data.Class == 1]
 
-# # Compare amount statistics
-# print(legit.Amount.describe())
-# print(fraud.Amount.describe())
+print("Legitimate Transactions:", legit.shape)
+print("Fraud Transactions:", fraud.shape)
 
-# # Undersampling
-# legit_sample = legit.sample(n=492)
+print(legit.Amount.describe())
+print(fraud.Amount.describe())
 
-# new_data = pd.concat([legit_sample, fraud], axis=0)
+legit_sample = legit.sample(n=492)
 
-# print(new_data['Class'].value_counts())
+new_data = pd.concat([legit_sample, fraud], axis=0)
 
-# # Split features and target
-# X = new_data.drop(columns='Class')
-# Y = new_data['Class']
+print(new_data['Class'].value_counts())
 
-# # Train test split
-# X_train, X_test, Y_train, Y_test = train_test_split(
-#     X, Y, test_size=0.2, stratify=Y, random_state=2
-# )
+X = new_data.drop(columns='Class') #splitting features
+Y = new_data['Class']
 
-# # Model training
-# model = LogisticRegression()
+X_train, X_test, Y_train, Y_test = train_test_split(
+    X, Y, test_size=0.2, stratify=Y, random_state=2
+)
 
-# model.fit(X_train, Y_train)
+model = LogisticRegression()
 
-# # Accuracy on training data
-# X_train_prediction = model.predict(X_train)
-# training_data_accuracy = accuracy_score(X_train_prediction, Y_train)
+model.fit(X_train, Y_train)
 
-# print("Training Accuracy:", training_data_accuracy)
+X_train_prediction = model.predict(X_train)
+training_data_accuracy = accuracy_score(X_train_prediction, Y_train)
 
-# # Accuracy on test data
-# X_test_prediction = model.predict(X_test)
-# test_data_accuracy = accuracy_score(X_test_prediction, Y_test)
+print("Training Accuracy:", training_data_accuracy)
 
-# print("Test Accuracy:", test_data_accuracy)
+X_test_prediction = model.predict(X_test)
+test_data_accuracy = accuracy_score(X_test_prediction, Y_test)
 
-# # Confusion matrix
-# print(confusion_matrix(Y_test, X_test_prediction))
+print("Test Accuracy:", test_data_accuracy)
 
-# # Classification report
-# print(classification_report(Y_test, X_test_prediction))
+print(confusion_matrix(Y_test, X_test_prediction))
+print(classification_report(Y_test, X_test_prediction))
+input_data = X_test.iloc[0]
 
-# # Predict on new data
-# input_data = X_test.iloc[0]
+prediction = model.predict([input_data])
 
-# prediction = model.predict([input_data])
-
-# if prediction[0] == 0:
-#     print("Legitimate Transaction")
-# else:
-#     print("Fraudulent Transaction")
+if prediction[0] == 0:
+    print("Legitimate Transaction")
+else:
+    print("Fraudulent Transaction")
