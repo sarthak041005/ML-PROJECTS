@@ -1,6 +1,4 @@
-# Breast Cancer Prediction Project
 
-# Step 1: Import Libraries
 import numpy as np
 import pandas as pd
 from sklearn.datasets import load_breast_cancer
@@ -24,10 +22,8 @@ X_test = scaler.transform(X_test)
 model = LogisticRegression()
 model.fit(X_train, y_train)
 
-# Step 6: Make Predictions
 y_pred = model.predict(X_test)
 
-# Step 7: Evaluate Model
 print("Accuracy:", accuracy_score(y_test, y_pred))
 print("\nConfusion Matrix:\n", confusion_matrix(y_test, y_pred))
 print("\nClassification Report:\n", classification_report(y_test, y_pred))
